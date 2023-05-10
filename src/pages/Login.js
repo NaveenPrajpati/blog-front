@@ -3,12 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { loginUser } from '../service/UserService';
 import Navbar from '../components/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 export default function Login() {
 
-const dispatch=useDispatch();
-const loginstate=useSelector(state=>state.logedIn);
+  const dispatch = useDispatch();
+  const loginstate = useSelector(state => state.logedIn);
+  const { loginWithRedirect } = useAuth0();
 
   const [loginData, setloginData] = useState({
     email: "",
@@ -24,13 +26,13 @@ const loginstate=useSelector(state=>state.logedIn);
 
   function handle(event) {
     event.preventDefault();
-    
+
     loginUser(loginData)
       .then(res => {
         console.log(res)
-        localStorage.setItem('profile',JSON.stringify(res))  
+        localStorage.setItem('profile', JSON.stringify(res))
         alert("login success")
-      
+
         navigate("/")
       })
       .then((error) => {
@@ -40,11 +42,11 @@ const loginstate=useSelector(state=>state.logedIn);
       })
   }
 
- 
+
 
   return (
     <div>
-    <Navbar/>
+      <Navbar />
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -103,16 +105,18 @@ const loginstate=useSelector(state=>state.logedIn);
             </div>
 
             <div>
+             
               <button
                 onClick={handle}
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center rounded-md bg-green-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign in
               </button>
+              <button onClick={() => loginWithRedirect()} className="flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-semibold leading-6  shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Log In with Google</button>
             </div>
           </form>
 
-          <p className="mt-10 text-center text-sm text-gray-500">
+          <p className="mt-10 text-center text-sm text-gray-300">
             Not a member?{' '}
             <Link to={"/signup"} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Sign up

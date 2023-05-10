@@ -16,8 +16,8 @@ const BaseUrl=`http://localhost:4000/post`;
       return axios.delete(BaseUrl+"/"+id);
   }
 
-  export const updatePost =(Book,id)=>{
-    return axios.put(BaseUrl+"/"+id,Book);
+  export const updatePost =(post)=>{
+    return axios.put(BaseUrl,post);
 }
 
 export const updatePostLike =(id)=>{

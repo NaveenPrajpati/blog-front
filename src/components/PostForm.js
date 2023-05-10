@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getPostId, savePost, updatePost } from '../service/PostService';
 import { useDispatch, useSelector } from 'react-redux';
-import { setImage } from '../redux/slices/homeSlice';
-import { setError, setUpdateBtn, setUpdateId } from '../redux/slices/postsSlice';
+import { createPost, editPost, setError, setUpdateBtn, setUpdateId } from '../redux/slices/postsSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,15 +16,14 @@ function PostForm() {
     creator: "",
     title: "",
     tags: "",
-    message: ""
+    message: "",
+    imageFile:null
   })
-  const [selectedFile, setSelectedFile] = useState(null);
 
 useEffect(()=>{
   if(updataId!=null){
     getPostId(updataId)
     .then(res=>{
-      console.log(res.data)
       setPostData(res.data)
     })
     .catch(err=>{
@@ -35,38 +33,33 @@ useEffect(()=>{
 },[updataId])
 
   const handlefileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    setPostData({ ...postData, [event.target.name]:event.target.files[0]});
+
   };
 
   function handleChange(event) {
-    setPostData({ ...postData, [event.target.name]: event.target.value });
+    setPostData({ ...postData, [event.target.name]: event.target.value});
   }
 
 
     const handleSubmit=(event)=>{
       event.preventDefault();
+    
         const formData = new FormData();
         formData.append('creator',postData.creator);
         formData.append('title',postData.title);
         formData.append('tags',postData.tags);
         formData.append('message',postData.message);
-        formData.append('selectedFile',selectedFile);
+        formData.append('selectedFile',postData.imageFile);
        
-        
-        savePost(formData)
-        .then(res=>{
-          dispatch(setImage(res.data.imageFile))
-        })
-        .catch(error=>console.log(error))
-
-        
+        dispatch(createPost(formData))
+            
     }
 
     const handleUpdate=()=>{
-      updatePost(postData,updataId)
-      .then(res=>{
-        console.log(res)
-        toast.update(`${res.data}`, {
+      dispatch(editPost(postData))
+      
+        toast.update(`update success`, {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
@@ -78,11 +71,7 @@ useEffect(()=>{
             });
           dispatch(setUpdateBtn(false))
           dispatch(setUpdateId(null))
-          handleClear()
-      })
-      .catch(err=>{
-        dispatch(setError(err))
-      })
+    
     }
 
     const handleClear=(event)=>{
@@ -143,9 +132,12 @@ useEffect(()=>{
         Update
       </button>}
      
-      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={handleClear}>
+    {!updateBtn && <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={handleClear}>
         clear
-      </button>
+      </button>}
+    {updateBtn && <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={handleClear}>
+        cancel
+      </button>}
       
     </div>
   </form>

@@ -2,42 +2,23 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deletePost, getPostId, getPosts, updatePostLike } from '../service/PostService'
 import { MoonLoader } from 'react-spinners'
-import { postArray, setLoading, setError, setUpdateBtn, setUpdateId } from '../redux/slices/postsSlice'
+import { postArray, setLoading, setError, setUpdateBtn, setUpdateId, getAllPost, removePost, likePost } from '../redux/slices/postsSlice'
 import { HiDotsHorizontal, HiThumbUp, HiXCircle } from "react-icons/hi";
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import { myContext } from '../App'
 
 function Posts() {
-const {apiData,setApiData}=useContext(myContext)
     const { postData, loading} = useSelector(state => state.postState)
     const dispatch = useDispatch()
 
-    const[apiRes,setApiRes]=useState([])
-
-     
 
     useEffect(() => {
         
-        dispatch(setLoading(true));
-        
-     getPosts()
-        .then(res => {
-            console.log(res)
-            dispatch(setLoading(false)); 
-            setApiData(res.data)
-            
-        })
-        .catch(err => {
-            dispatch(setError(err))
-            dispatch(setLoading(false));
-        });
-    dispatch(setLoading(false));
-  
-        console.log("effect")
+        dispatch(getAllPost());
+
     }, []);
 
-    console.log(postData)
+  
     
     const handleEdit = (id) => {
         dispatch(setUpdateId(id))
@@ -45,21 +26,13 @@ const {apiData,setApiData}=useContext(myContext)
     }
 
 const handleLike=(id)=>{
-    updatePostLike(id)
-    .then(res=>{
-        
-        console.log(res.data)
-    })
-    .catch(err=>{
-        dispatch(setError(err))
-    })
+    dispatch(likePost(id))
+
 }
 
-    const handleDelete = (id) => {
-        deletePost(id)
-            .then(res => {
-                console.log(res)
-                toast.success(`${res.data}`, {
+    const handleDelete = (pid) => {
+        dispatch(removePost(pid))         
+                toast.success(`delete success`, {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -69,16 +42,13 @@ const handleLike=(id)=>{
                     progress: undefined,
                     theme: "light",
                     });
-            })
-            .catch(err => {
-                dispatch(setError(err))
-            });
+         
     }
     return (
         <div>
            {loading && <MoonLoader color="#36d7b7"  />}
             <ToastContainer />
-            <ul className='flex flex-wrap gap-5'>
+            <ul className='flex flex-wrap flex-grow gap-5'>
                 {postData.map((item,index) =>{ return(
                     <li className='' key={index}>
                         <div className="w-[300px] bg-white border border-gray-200 rounded-lg shadow">
