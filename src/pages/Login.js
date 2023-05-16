@@ -4,12 +4,13 @@ import { loginUser } from '../service/UserService';
 import Navbar from '../components/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth0 } from '@auth0/auth0-react';
+import { loginstate, setUser } from '../redux/slices/navbarSlice';
 
 
 export default function Login() {
 
   const dispatch = useDispatch();
-  const loginstate = useSelector(state => state.logedIn);
+  
   const { loginWithRedirect } = useAuth0();
 
   const [loginData, setloginData] = useState({
@@ -29,13 +30,15 @@ export default function Login() {
 
     loginUser(loginData)
       .then(res => {
-        console.log(res)
-        localStorage.setItem('profile', JSON.stringify(res))
+        console.log(res.data)
+        localStorage.setItem('userData',JSON.stringify(res.data))
         alert("login success")
-
+        // dispatch(setUser(JSON.parse(localStorage.getItem('userData')).user))
+        // dispatch(loginstate(true))
+  
         navigate("/")
       })
-      .then((error) => {
+      .catch((error) => {
         console.log("request mai error aara hai")
         console.log(error)
 
@@ -112,7 +115,7 @@ export default function Login() {
               >
                 Sign in
               </button>
-              <button onClick={() => loginWithRedirect()} className="flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-semibold leading-6  shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Log In with Google</button>
+              <button onClick={() => loginWithRedirect()} className="mt-3 flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-semibold leading-6  shadow-sm hover:bg-gray-100 focus-visible:outline">Log In with Google</button>
             </div>
           </form>
 

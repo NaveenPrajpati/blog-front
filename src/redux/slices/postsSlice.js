@@ -43,12 +43,11 @@ export const editPost=createAsyncThunk("update",async(data, { rejectWithValue })
 const initialState={
     postData:[],
     loading:false,
+    isLiked:false,
     error:null,
     updateBtn:false,
     updataId:null,
-    extraReducers:{
-
-    }
+    
 }
 
 export const postSlice=createSlice({
@@ -119,10 +118,14 @@ export const postSlice=createSlice({
       })
       .addCase(likePost.fulfilled, (state, action) => {
         
+
         const find=(it)=>{
-          if(it._id==action.payload._id)
+          if(it._id==action.payload._id){
+          it.likes.length<action.payload.likes.length?state.isLiked=true:state.isLiked=false
             it.likes=action.payload.likes
         }
+      }
+
         state.postData.map(find);
       })
       .addCase(likePost.rejected, (state, action) => {

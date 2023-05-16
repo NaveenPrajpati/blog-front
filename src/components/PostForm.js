@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function PostForm() {
 
   const {updateBtn,updataId }=useSelector(state => state.postState)
+  const {userData}=useSelector(state => state.navbarState)
   const dispatch=useDispatch()
 
   const [postData, setPostData] = useState({
@@ -46,7 +47,8 @@ useEffect(()=>{
       event.preventDefault();
     
         const formData = new FormData();
-        formData.append('creator',postData.creator);
+        formData.append('creator',userData.name);
+        formData.append('creatorId',userData.id);
         formData.append('title',postData.title);
         formData.append('tags',postData.tags);
         formData.append('message',postData.message);
@@ -61,7 +63,7 @@ useEffect(()=>{
       
         toast.update(`update success`, {
             position: "top-right",
-            autoClose: 2000,
+            autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -90,12 +92,12 @@ useEffect(()=>{
   return (
     <div className="flex  ">
  <ToastContainer />
-  <form className=" bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-[300px] sm:w-full h-fit" encType='multipart/form-data' action='/post'>
+  <form className=" bg-white shadow-md rounded p-4 mb-4 w-[300px] sm:w-full h-fit" encType='multipart/form-data' action='/post'>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
         Creator
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} type="text" placeholder="title" name='creator' value={postData.creator}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} type="text" placeholder="title" name='creator' value={userData.name}/>
     </div>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
@@ -115,7 +117,7 @@ useEffect(()=>{
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
         Message
       </label>
-      <textarea className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} type="text" placeholder="" name='message' value={postData.message}/>
+      <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} type="text" placeholder="" name='message' value={postData.message}/>
     </div>
     <div className="mb-6">
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">

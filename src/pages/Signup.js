@@ -1,15 +1,24 @@
 import { eventWrapper } from '@testing-library/user-event/dist/utils'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { registerUser } from '../service/UserService';
+import { Link, useNavigate } from 'react-router-dom'
+import { authUser, registerUser } from '../service/UserService';
 import Navbar from '../components/Navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../redux/slices/homeSlice';
+import { loginstate } from '../redux/slices/navbarSlice';
 
 function Signup() {
-
+    
+    const dispatch=useDispatch()
+    const navigate=useNavigate()
+    const[otpbtn,setOtpbtn]=useState(false)
     const [signupData,setSignupData]=useState({
-        username:"",
+        firstName:"",
+        lastName:"",
         email:"",
-        password:""
+        password:"",
+        confpass:"",
+        otp:""
     })
 
     function handleChange(event){
@@ -17,11 +26,27 @@ function Signup() {
     }
 
 
-    function handle(event){
+    function authhandle(event){
+        event.preventDefault();
+    authUser(signupData)
+    .then(res=>{
+       
+    if(res.status==200)
+      setOtpbtn(true)})
+    .catch(error=>{
+        console.log(error)
+    })
+    }
+    function savehandle(event){
         event.preventDefault();
     registerUser(signupData)
-    .then(res=>console.log(res))
-    .then(error=>{
+    .then(res=>{
+        console.log(res)
+        if(res.status===201)
+        navigate('/login')
+    
+    })
+    .catch(error=>{
         console.log(error)
     })
     }
@@ -36,8 +61,15 @@ function Signup() {
                     <input 
                         type="text"
                         className="block border border-grey-light w-full p-2 rounded mb-4"
-                        name="username"
-                        placeholder="Full Name" 
+                        name="firstName"
+                        placeholder="First Name" 
+                        onChange={handleChange}
+                        />
+                    <input 
+                        type="text"
+                        className="block border border-grey-light w-full p-2 rounded mb-4"
+                        name="lastName"
+                        placeholder="Last Name" 
                         onChange={handleChange}
                         />
 
@@ -56,18 +88,33 @@ function Signup() {
                         placeholder="Password"
                         onChange={handleChange}
                          />
-                    <input 
+                        
+                        
+                        <input 
                         type="password"
                         className="block border border-grey-light w-full p-2 rounded mb-4"
-                        name="confirm_password"
-                        placeholder="Confirm Password" />
+                        name="confpass"
+                        placeholder="Confirm Password" 
+                        onChange={handleChange}
+                        />
 
                     <button
-                       onClick={handle}
+                       onClick={authhandle}
                         className="w-full text-center py-2 rounded bg-green text-white bg-green-400 focus:outline-none my-1"
                     >Create Account</button>
+                  {otpbtn &&  <div className='flex items-center justify-between my-4'>
+                     <input 
+                        type="text"
+                        className="border border-grey-light  p-2 rounded "
+                        name="otp"
+                        placeholder="enter OTP" 
+                        onChange={handleChange}
+                        />
+                        <button onClick={savehandle} className='p-2 rounded bg-green text-white bg-blue-400 hover:bg-blue-500'>validate
+                        </button>
+                        </div>}
                     <button
-                       onClick={handle}
+                      
                         className="w-full text-center py-2 rounded bg-green text-white bg-blue-500 focus:outline-none my-1"
                     >Signup with google</button>
 
