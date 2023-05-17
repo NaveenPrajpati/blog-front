@@ -49,7 +49,7 @@ export const updatePostLike =(id)=>{
     }
   
   
-  export const getBookByName =(name)=>{
+  export const getPostBytitle =(name)=>{
         
         return axios.get(BaseUrl+name);
     }

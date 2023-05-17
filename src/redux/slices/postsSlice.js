@@ -1,23 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useContext } from "react";
-import { myContext } from "../../App";
 import { deletePost, getPosts, savePost, updatePost, updatePostLike } from "../../service/PostService";
 
 
-export const createPost=createAsyncThunk("create",async(data, { rejectWithValue })=>{
+ export const createPost=createAsyncThunk("create",async(data, { rejectWithValue })=>{
  const res=await savePost(data) 
-  if(res.status!==200)
+  if(res.status!==201)
       return rejectWithValue()
+
    return res.data;
-})
+  })
 export const getAllPost=createAsyncThunk("getAll",async(name, { rejectWithValue })=>{
  const res=await getPosts() 
   if(res.status!==200)
       return rejectWithValue()
    return res.data;
 })
+export const getPostTitle=createAsyncThunk("getpostName",async(name, { rejectWithValue })=>{
+ const res=await getPostTitle(name) 
+  if(res.status!==200)
+      return rejectWithValue()
+   return res.data;
+})
 export const removePost=createAsyncThunk("delete",async(pid, { rejectWithValue })=>{
-  console.log(pid)
  const res=await deletePost(pid)
   if(res.status!==200)
       return rejectWithValue()
@@ -32,8 +36,10 @@ export const likePost=createAsyncThunk("like",async(id, { rejectWithValue })=>{
    return res.data;
 })
 export const editPost=createAsyncThunk("update",async(data, { rejectWithValue })=>{
-  console.log(data)
+  
  const res=await updatePost(data)
+
+ console.log(res)
   if(res.status!==200)
       return rejectWithValue()
 
@@ -106,7 +112,7 @@ export const postSlice=createSlice({
       })
       .addCase(createPost.fulfilled, (state, action) => {
         state.loading = false
-        state.postData=[action.payload]
+        state.postData.push(action.payload)
       })
       .addCase(createPost.rejected, (state, action) => {
         state.loading = false

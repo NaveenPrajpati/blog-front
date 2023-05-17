@@ -90,37 +90,39 @@ useEffect(()=>{
 
 
   return (
-    <div className="flex  ">
+    <div className="w-[300px]">
  <ToastContainer />
-  <form className=" bg-white shadow-md rounded p-4 mb-4 w-[300px] sm:w-full h-fit" encType='multipart/form-data' action='/post'>
-    <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+ 
+  <form className="shadow-lg rounded p-4  " encType='multipart/form-data' action='/post'>
+  <h1 className='font-semibold text-center text-lg my-1'>Create Post</h1>
+    <div className="mb-2">
+      <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="username">
         Creator
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} type="text" placeholder="title" name='creator' value={userData.name}/>
+      <input className="shadow border rounded w-full py-2 px-3 text-gray-700" onChange={handleChange} type="text" placeholder="title" name='creator' value={userData.name}/>
     </div>
-    <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+    <div className="mb-2">
+      <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="username">
         Title
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} type="text" placeholder="title" name='title' value={postData.title}/>
     </div>
 
-    <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+    <div className="mb-2">
+      <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="username">
         Taga
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} type="text" placeholder="tags" name='tags' value={postData.tags}/>
     </div>
 
-    <div className="mb-6">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+    <div className="mb-2">
+      <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="password">
         Message
       </label>
-      <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} type="text" placeholder="" name='message' value={postData.message}/>
+      <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700  leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} type="text" placeholder="" name='message' value={postData.message}/>
     </div>
-    <div className="mb-6">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+    <div className="mb-2">
+      <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="password">
         Choose file
       </label>
       <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" onChange={handlefileChange} type="file" placeholder="" name='imageFile'/>

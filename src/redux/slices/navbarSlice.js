@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState={
     logedIn:false,
-    userData:{}
+    userData:{},
+    searchOpt:''
 }
 
 export const navbarSlice=createSlice({
@@ -15,10 +16,13 @@ export const navbarSlice=createSlice({
         },
         setUser(state,action){
             state.userData=action.payload
+        },
+        setSearch(state,action){
+            state.searchOpt=action.payload
         }
     }
 
 })
 
-export const {loginstate,setUser}=navbarSlice.actions
+export const {loginstate,setUser,setSearch}=navbarSlice.actions
 export default navbarSlice.reducer

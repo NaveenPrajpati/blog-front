@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Moment from 'react-moment'
 
-function Posts() {
+function Posts({currentItems}) {
     const { postData, loading,isLiked} = useSelector(state => state.postState)
     const {userData} = useSelector(state => state.navbarState)
     const dispatch = useDispatch()
@@ -47,22 +47,36 @@ const handleLike=(id)=>{
          
     }
 
+    function hashTags(array){
+        let words = array[0].split(' ');
+        let wordsWithHash = words.map(function(word) {
+            return '#' + word;
+        });
+        let result = wordsWithHash.join(' ');
+        return result;
+    }
 
-
+    function checkLike(li){
+      const index=  li.findIndex(lis=>{return lis==userData.id})
+      if(index==-1)
+      return <><HiOutlineThumbUp /><span>{li.length}</span></>
+      else
+      return <><HiThumbUp /><span>{li.length}</span></>
+    }
 
     return (
-        <div>
+        <div className=''>
            {loading && <MoonLoader color="#36d7b7"  />}
             <ToastContainer />
-            <ul className='flex flex-wrap flex-grow gap-5'>
-                {postData.map((item,index) =>{ return(
+            <ul className='flex flex-wrap  gap-5'>
+                {currentItems.map((item,index) =>{ return(
 
         
 
                     <li className='' key={index}>
-                        <div className="w-[300px] bg-white border border-gray-200 rounded-lg shadow">
-                            <div className='w-full rounded-t-lg h-[150px] relative '>
-                                <img src={item.imageFile} alt="image" className='object-fill h-full mx-auto w-full absolute' />
+                        <div className="w-[300px] h-80 bg-white border border-gray-200 rounded-lg shadow-2xl cursor-pointer hover:bg-gray-50">
+                            <div className='w-full  h-[160px] relative '>
+                                <img src={item.imageFile} alt="image" className='object-fill rounded-t-lg h-full  w-full absolute' />
                                 <div className='flex absolute items-center w-full justify-between px-1'>
                                 <div>
                                     <p className='text-slate-500 font-bold'>{item.creator}</p>
@@ -80,23 +94,24 @@ const handleLike=(id)=>{
                                 </div>
                             </div>
                             <div className="px-2">
-                                <h5 className="text-sm text-slate-500 font-semibold">#{item.tags}</h5>
+                                <h5 className="text-sm text-slate-500 font-semibold">{hashTags(item.tags)}</h5>
+                                <div className='flex flex-col mt-3 justify-between h-28'>
+
+                                <div className=''>
                                 <h5 className="mb-1 text-lg font-bold ">{item.title}</h5>
-                                <p className="mb-3 font-normal ">{item.message}</p>
+                                <p className="mb-1 text-slate-700 font-medium leading-3">{item.message}</p>
+                                </div>
 
                                 <div className="flex justify-between">
-
                                 <div className='flex items-center text-blue-600 cursor-pointer' onClick={()=>handleLike(item._id)}>
-                              
-                                       <><HiThumbUp /><span>LIKE {item.likes.length}</span></>
-
+                                       {checkLike(item.likes)}
                                     </div>
                                     {(userData.id===item.creatorId) &&
                                     <div className='flex text-red-500 items-center cursor-pointer' onClick={() => handleDelete(item._id)}>
-
                                         <HiXCircle />Delete
                                     </div>
                                     }
+                                </div>
                                 </div>
                             </div>
                         </div>

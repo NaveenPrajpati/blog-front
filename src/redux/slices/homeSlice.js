@@ -5,8 +5,6 @@ const initialState={
     user:''
 
 }
-
-
 export const homeSlice=createSlice({
     name:"home",
     initialState,

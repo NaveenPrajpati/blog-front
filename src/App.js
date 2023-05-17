@@ -10,7 +10,7 @@ import Homapage from './pages/Homapage';
 function App() {
 
   return (
-    <div  className=" bg-gradient-to-b from-teal-100 to-teal-500 h-[100vh]">
+    <div  className="">
 
 <Provider store={postStore}>
 <Routes>

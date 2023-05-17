@@ -4,30 +4,34 @@ import { loginstate, setUser } from '../redux/slices/navbarSlice';
 
 import Navbar from '../components/Navbar'
 import Posts from '../components/Posts'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../components/Pagination';
 
 function Homapage() {
-  
-  const dispatch = useDispatch();
 
-  useEffect(()=>{
+  const dispatch = useDispatch();
+  const { postData, loading, isLiked } = useSelector(state => state.postState)
+
+
+  useEffect(() => {
     dispatch(setUser(JSON.parse(localStorage.getItem('userData')).user))
-        dispatch(loginstate(true))
-  },[])
+    dispatch(loginstate(true))
+  }, [])
 
   return (
-    <div className='w-full p-10 '>
-      <Navbar/>
-      <Pagination itemsPerPage={4}/>
-    <div className='flex flex-col-reverse sm:flex-row justify-center'>
-      <div className='sm:w-[60%]'>
-       <Posts/>
+    <div className='w-full p-10 flex flex-col items-center sm:block'>
+      <Navbar />
+
+      <div className='flex flex-col-reverse sm:flex-row sm:justify-between  mx-10'>
+        <div className='sm:w-[80%]'>
+          <Pagination itemsPerPage={7} />
+        </div>
+        <div className=''>
+          <PostForm />
+        </div>
+
       </div>
-      <PostForm />
-      
-      </div>
-      
+
     </div>
   )
 }
