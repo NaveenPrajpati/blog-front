@@ -53,6 +53,7 @@ const initialState={
     error:null,
     updateBtn:false,
     updataId:null,
+   
     
 }
 
@@ -77,7 +78,8 @@ export const postSlice=createSlice({
           },
           setUpdateId: (state, action) => {
             state.updataId = action.payload;
-          },
+          }
+         
     },
     extraReducers:(builder)=>{
       builder

@@ -2,16 +2,21 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deletePost, getPostId, getPosts, updatePostLike } from '../service/PostService'
 import { MoonLoader } from 'react-spinners'
-import { postArray, setLoading, setError, setUpdateBtn, setUpdateId, getAllPost, removePost, likePost } from '../redux/slices/postsSlice'
+import { postArray, setLoading, setError, setUpdateBtn, setUpdateId, getAllPost, removePost, likePost} from '../redux/slices/postsSlice'
 import { HiDotsHorizontal, HiThumbUp, HiXCircle,HiOutlineThumbUp} from "react-icons/hi";
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Moment from 'react-moment'
+import PostDetail from '../pages/PostDetail'
+import { useNavigate } from 'react-router-dom'
+import { setShowDetail } from '../redux/slices/postDetailSlice'
 
 function Posts({currentItems}) {
-    const { postData, loading,isLiked} = useSelector(state => state.postState)
+    const { postData, loading,isLiked,showDetail} = useSelector(state => state.postState)
     const {userData} = useSelector(state => state.navbarState)
     const dispatch = useDispatch()
+
+    const navigate=useNavigate();
 
 
     useEffect(() => {
@@ -64,19 +69,24 @@ const handleLike=(id)=>{
       return <><HiThumbUp /><span>{li.length}</span></>
     }
 
+   const handleDetail=(item)=>{
+        dispatch(setShowDetail(item))
+    }
+
     return (
         <div className=''>
            {loading && <MoonLoader color="#36d7b7"  />}
             <ToastContainer />
+           
             <ul className='flex flex-wrap  gap-5'>
                 {currentItems.map((item,index) =>{ return(
 
         
 
                     <li className='' key={index}>
-                        <div className="w-[300px] h-80 bg-white border border-gray-200 rounded-lg shadow-2xl cursor-pointer hover:bg-gray-50">
+                        <div className={`w-[300px] h-80 bg-white border border-gray-200 rounded-lg shadow-2xl cursor-pointer hover:bg-gray-100 group`} >
                             <div className='w-full  h-[160px] relative '>
-                                <img src={item.imageFile} alt="image" className='object-fill rounded-t-lg h-full  w-full absolute' />
+                                <img src={item.imageFile} alt="image" className='object-fill rounded-t-lg h-full  w-full absolute group-hover:scale-105' onClick={()=>handleDetail(item)}/>
                                 <div className='flex absolute items-center w-full justify-between px-1'>
                                 <div>
                                     <p className='text-slate-500 font-bold'>{item.creator}</p>

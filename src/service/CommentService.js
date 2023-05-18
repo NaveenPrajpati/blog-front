@@ -24,39 +24,19 @@ const config={
   }
 }
 
-  export const savePost =(post)=>{
-        return axios.post(BaseUrl,post,config);
+  export const saveComment =(comment)=>{
+        return axios.post(BaseUrl+"/comment",comment,config);
     }
 
-  export const getPosts =()=>{
-        return axios.get(BaseUrl);
+  export const getComments =()=>{
+        return axios.get(BaseUrl+"/comment");
     }
 
-  export const deletePost =(id)=>{
+  export const deleteComment =(id)=>{
       return axios.delete(BaseUrl+"/"+id,config);
   }
 
-  export const updatePost =(post)=>{
-    return axios.put(BaseUrl,post,config);
-}
 
-export const updatePostLike =(id)=>{
-  return axios.patch(BaseUrl+"/"+id,config);
-}
-
-  export const getPostId =(id)=>{
-        return axios.get(BaseUrl+"/"+id,config);
-    }
-  
-  
-  export const getPostBytitle =(name)=>{
-        
-        return axios.get(BaseUrl+name);
-    }
-  export const getBookByAuthor =(author)=>{
-        
-        return axios.get(BaseUrl+author);
-    }
 
 
     
