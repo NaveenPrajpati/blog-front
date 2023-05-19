@@ -25,11 +25,11 @@ const config={
 }
 
   export const saveComment =(comment)=>{
-        return axios.post(BaseUrl+"/comment",comment,config);
+        return axios.put(BaseUrl+"/comment",comment,config);
     }
 
   export const getComments =()=>{
-        return axios.get(BaseUrl+"/comment");
+        return axios.get(BaseUrl+"/comment",config);
     }
 
   export const deleteComment =(id)=>{

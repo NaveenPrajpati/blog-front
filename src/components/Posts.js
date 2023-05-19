@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deletePost, getPostId, getPosts, updatePostLike } from '../service/PostService'
 import { MoonLoader } from 'react-spinners'
-import { postArray, setLoading, setError, setUpdateBtn, setUpdateId, getAllPost, removePost, likePost} from '../redux/slices/postsSlice'
+import { postArray, setLoading, setError, setUpdateBtn, setUpdateId, getAllPost, removePost, likePost, setEnableDetail} from '../redux/slices/postsSlice'
 import { HiDotsHorizontal, HiThumbUp, HiXCircle,HiOutlineThumbUp} from "react-icons/hi";
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,7 +12,8 @@ import { useNavigate } from 'react-router-dom'
 import { setShowDetail } from '../redux/slices/postDetailSlice'
 
 function Posts({currentItems}) {
-    const { postData, loading,isLiked,showDetail} = useSelector(state => state.postState)
+    const[showDetail,setShowDetail]=useState({})
+    const { postData, loading,isLiked,enableDetail} = useSelector(state => state.postState)
     const {userData} = useSelector(state => state.navbarState)
     const dispatch = useDispatch()
 
@@ -70,23 +71,25 @@ const handleLike=(id)=>{
     }
 
    const handleDetail=(item)=>{
-        dispatch(setShowDetail(item))
+        setShowDetail(item)
+        dispatch(setEnableDetail(true))
     }
 
     return (
         <div className=''>
            {loading && <MoonLoader color="#36d7b7"  />}
             <ToastContainer />
-           
+            {enableDetail &&  <div className=' '><PostDetail showDetail={showDetail}/></div>}
+           {!enableDetail &&
             <ul className='flex flex-wrap  gap-5'>
                 {currentItems.map((item,index) =>{ return(
 
         
 
                     <li className='' key={index}>
-                        <div className={`w-[300px] h-80 bg-white border border-gray-200 rounded-lg shadow-2xl cursor-pointer hover:bg-gray-100 group`} >
+                        <div className={`w-[300px] h-80 bg-white border border-gray-200 rounded-lg shadow-2xl cursor-pointer hover:bg-gray-100`} >
                             <div className='w-full  h-[160px] relative '>
-                                <img src={item.imageFile} alt="image" className='object-fill rounded-t-lg h-full  w-full absolute group-hover:scale-105' onClick={()=>handleDetail(item)}/>
+                                <img src={item.imageFile} alt="image" className='object-fill rounded-t-lg h-full  w-full absolute hover:scale-105' onClick={()=>handleDetail(item)}/>
                                 <div className='flex absolute items-center w-full justify-between px-1'>
                                 <div>
                                     <p className='text-slate-500 font-bold'>{item.creator}</p>
@@ -95,9 +98,9 @@ const handleLike=(id)=>{
                                 </div>
 
                                 {(userData.id===item.creatorId) &&
-                                    <div className="group relative flex justify-center cursor-pointer">
+                                    <div className=" relative flex justify-center cursor-pointer">
                                         <HiDotsHorizontal className='text-slate-400 font-bold' onClick={() => handleEdit(item._id)} />
-                                        <span className="absolute -top-5 scale-0 rounded bg-gray-600 text-white text-sm  group-hover:scale-100">edit</span>
+                                        <span className="absolute -top-5 scale-0 rounded bg-gray-600 text-white text-sm">edit</span>
                                     </div>
                                 }
 
@@ -129,6 +132,7 @@ const handleLike=(id)=>{
                 )})
                 }
             </ul>
+           }
         </div>
     );
 }

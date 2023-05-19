@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { deletePost, getPosts, savePost, updatePost, updatePostLike } from "../../service/PostService";
+import { saveComment } from "../../service/CommentService";
 
 
  export const createPost=createAsyncThunk("create",async(data, { rejectWithValue })=>{
@@ -45,6 +46,13 @@ export const editPost=createAsyncThunk("update",async(data, { rejectWithValue })
 
    return res.data;
 })
+export const createComment=createAsyncThunk("createComment",async(data, { rejectWithValue })=>{
+  const res=await saveComment(data) 
+   if(res.status!==200)
+       return rejectWithValue()
+ 
+    return res.data;
+   })
 
 const initialState={
     postData:[],
@@ -53,6 +61,7 @@ const initialState={
     error:null,
     updateBtn:false,
     updataId:null,
+    enableDetail:false
    
     
 }
@@ -78,6 +87,9 @@ export const postSlice=createSlice({
           },
           setUpdateId: (state, action) => {
             state.updataId = action.payload;
+          },
+          setEnableDetail: (state, action) => {
+            state.enableDetail = action.payload;
           }
          
     },
@@ -129,7 +141,6 @@ export const postSlice=createSlice({
 
         const find=(it)=>{
           if(it._id==action.payload._id){
-          it.likes.length<action.payload.likes.length?state.isLiked=true:state.isLiked=false
             it.likes=action.payload.likes
         }
       }
@@ -156,8 +167,27 @@ export const postSlice=createSlice({
         state.loading = false
         state.error = action.error.message;
       });
+      builder
+      .addCase(createComment.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(createComment.fulfilled, (state, action) => {
+        state.loading = false
+        console.log(action.payload)
+        const find=(it)=>{
+          if(it._id==action.payload._id){
+            it.comments=action.payload.comments
+        }
+      }
+
+        state.postData.map(find);
+      })
+      .addCase(createComment.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message;
+      });
     }
 })
 
-export const {postArray,setLoading,setError,setUpdateBtn,setUpdateId} =postSlice.actions
+export const {postArray,setLoading,setError,setUpdateBtn,setUpdateId,setEnableDetail} =postSlice.actions
 export default postSlice.reducer

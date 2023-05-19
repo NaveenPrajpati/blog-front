@@ -7,24 +7,38 @@ import Navbar from '../components/Navbar'
 import PostForm from '../components/PostForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaWindowClose,FaCommentDots } from "react-icons/fa";
-import { setComment, setShowDetail } from '../redux/slices/postDetailSlice'
+import { getAllComment, setCommentdeta, setShowDetail } from '../redux/slices/postDetailSlice'
 import Moment from 'react-moment'
+import { createComment, setEnableDetail } from '../redux/slices/postsSlice'
 
-export default function PostDetail() {
-    const { postData, loading,isLiked,showDetail} = useSelector(state => state.postState)
+export default function PostDetail({showDetail}) {
+    const [comment, setComment] = useState('')
+
+// useEffect(()=>{
+//     dispatch(getAllComment())
+// },[])
+const { postData, loading,isLiked,enableDetail} = useSelector(state => state.postState)
+
+    const {commentData} = useSelector(state => state.postDetailState)
+    const {userData} = useSelector(state => state.navbarState)
+
 const navigate=useNavigate()
 const dispatch=useDispatch()
     function handleClose(){
-        navigate('/')
-        dispatch(setShowDetail({}))
+        
+        dispatch(setEnableDetail(false))
     }
 
     function handleComment(){
-
+        const detail={
+            comment:comment,
+            id:showDetail._id
+        }
+       dispatch(createComment(detail))
     }
 
-    function handleText(){
-
+    function handleText(event){
+      setComment(event.target.value)
     }
     
 
@@ -48,12 +62,15 @@ const dispatch=useDispatch()
                     <div className='sm:w-[50%]'>
                         <h2 className='text-black font-bold'>Comments</h2>
                         <ul>
-                            <li>comment1</li>
+                        {showDetail.comments.map(itm=>{return (
+
+                            <li>{itm}</li>
+                        )})}
                         </ul>
                     </div>
                     <div>
                         <p>Write Comment</p>
-                        <textarea name="" id="" cols="30" rows="5"  onChange={dispatch(setComment(this.event.target.value))}></textarea><br />
+                        <textarea name="" id="" cols="30" rows="5"  onChange={handleText}></textarea><br />
                         <button className='bg-cyan-500 font-bold w-full rounded-md active:bg-cyan-600' onClick={handleComment}>Comment</button>
                     </div>
                 </div>

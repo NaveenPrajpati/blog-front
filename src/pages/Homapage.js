@@ -23,7 +23,7 @@ function Homapage() {
   return (
     <div className='w-full p-10 flex flex-col items-center sm:block'>
       <Navbar />
-      {(Object.keys(showDetail).length!==0)?<div className='mx-auto sm:w-[80%] '><PostDetail /></div>:
+      {/* {(Object.keys(showDetail).length!==0)?<div className='mx-auto sm:w-[80%] '><PostDetail /></div>: */}
         <div className='flex flex-col-reverse sm:flex-row sm:justify-between  mx-10'>
         <div className='sm:w-[80%]'>
           <Pagination itemsPerPage={7} />
@@ -32,7 +32,7 @@ function Homapage() {
           <PostForm />
         </div>
 
-      </div>}
+      </div>
 
     </div>
   )

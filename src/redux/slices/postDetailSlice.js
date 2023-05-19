@@ -1,15 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { deletePost, getPosts, savePost, updatePost, updatePostLike } from "../../service/PostService";
 import { deleteComment, getComments, saveComment } from "../../service/CommentService";
 
 
- export const createComment=createAsyncThunk("create",async(data, { rejectWithValue })=>{
- const res=await saveComment(data) 
-  if(res.status!==201)
-      return rejectWithValue()
 
-   return res.data;
-  })
 export const getAllComment=createAsyncThunk("getAll",async(name, { rejectWithValue })=>{
  const res=await getComments() 
   if(res.status!==200)
@@ -31,7 +24,7 @@ const initialState={
     loading:false,
     isLiked:false,
     error:null,
-    comment:'',
+    commentDetail:{},
     showDetail:{}
     
 }
@@ -41,17 +34,20 @@ export const postDetailSlice=createSlice({
     initialState,
     reducers:{
       postDetailArray(state,action){
-          state.postData=action.payload
+          state.commentData=action.payload
         },
         setLoading(state,action){
          
             state.loading=action.payload
         },
-        setComment(state,action){
-            state.loading=action.payload
+        setCommentdetail(state,action){
+            state.commentDetail=action.payload
         },
         setShowDetail: (state, action) => {
           state.showDetail = action.payload;
+        },
+        setError: (state, action) => {
+          state.error = action.payload;
         },
         
     },
@@ -62,41 +58,19 @@ export const postDetailSlice=createSlice({
       })
       .addCase(getAllComment.fulfilled, (state, action) => {
         state.loading = false
-        state.postData = action.payload;
+    
       })
       .addCase(getAllComment.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message;
       });
 
-      builder
-      .addCase(removeComment.pending, (state) => {
-        state.loading = true
-      })
-      .addCase(removeComment.fulfilled, (state, action) => {
-        state.loading = false
-        state.postData=state.postData.filter((it)=>it._id!==action.payload._id)
-      })
-      .addCase(removeComment.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.error.message;
-      });
 
-      builder
-      .addCase(createComment.pending, (state) => {
-        state.loading = true
-      })
-      .addCase(createComment.fulfilled, (state, action) => {
-        state.loading = false
-        state.postData.push(action.payload)
-      })
-      .addCase(createComment.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.error.message;
-      });
+
+      
      
     }
 })
 
-export const {postDetailArray,setShowDetail,setComment} =postDetailSlice.actions
+export const {postDetailArray,setShowDetail,setCommentdetail} =postDetailSlice.actions
 export default postDetailSlice.reducer
