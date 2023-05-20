@@ -8,12 +8,12 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Moment from 'react-moment'
 import PostDetail from '../pages/PostDetail'
-import { useNavigate } from 'react-router-dom'
+import { Await, useNavigate } from 'react-router-dom'
 import { setShowDetail } from '../redux/slices/postDetailSlice'
 
 function Posts({currentItems}) {
     const[showDetail,setShowDetail]=useState({})
-    const { postData, loading,isLiked,enableDetail} = useSelector(state => state.postState)
+    const { postData, loading,isLiked,enableDetail,status} = useSelector(state => state.postState)
     const {userData} = useSelector(state => state.navbarState)
     const dispatch = useDispatch()
 
@@ -24,7 +24,7 @@ function Posts({currentItems}) {
         
         dispatch(getAllPost());
 
-    }, []);
+    }, [dispatch]);
 
   
     
@@ -79,7 +79,7 @@ const handleLike=(id)=>{
         <div className=''>
            {loading && <MoonLoader color="#36d7b7"  />}
             <ToastContainer />
-            {enableDetail &&  <div className=' '><PostDetail showDetail={showDetail}/></div>}
+            {enableDetail &&  <div className=''><PostDetail showDetail={showDetail}/></div>}
            {!enableDetail &&
             <ul className='flex flex-wrap  gap-5'>
                 {currentItems.map((item,index) =>{ return(

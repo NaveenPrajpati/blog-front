@@ -7,16 +7,17 @@ import Navbar from '../components/Navbar'
 import PostForm from '../components/PostForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaWindowClose,FaCommentDots } from "react-icons/fa";
-import { getAllComment, setCommentdeta, setShowDetail } from '../redux/slices/postDetailSlice'
+import { getAllComment, postDetailArray, setCommentdeta, setShowDetail } from '../redux/slices/postDetailSlice'
 import Moment from 'react-moment'
 import { createComment, setEnableDetail } from '../redux/slices/postsSlice'
+import { useRef } from 'react'
+import CommentList from '../components/CommentList'
 
 export default function PostDetail({showDetail}) {
     const [comment, setComment] = useState('')
+    const commentRef=useRef();
 
-// useEffect(()=>{
-//     dispatch(getAllComment())
-// },[])
+
 const { postData, loading,isLiked,enableDetail} = useSelector(state => state.postState)
 
     const {commentData} = useSelector(state => state.postDetailState)
@@ -35,6 +36,9 @@ const dispatch=useDispatch()
             id:showDetail._id
         }
        dispatch(createComment(detail))
+       dispatch(postDetailArray(showDetail.comments))
+       setComment('')
+       
     }
 
     function handleText(event){
@@ -61,16 +65,11 @@ const dispatch=useDispatch()
                 <div className='flex flex-col sm:flex-row gap-5 mt-5'>
                     <div className='sm:w-[50%]'>
                         <h2 className='text-black font-bold'>Comments</h2>
-                        <ul>
-                        {showDetail.comments.map(itm=>{return (
-
-                            <li>{itm}</li>
-                        )})}
-                        </ul>
+                      <CommentList comments={showDetail.comments}/>
                     </div>
                     <div>
                         <p>Write Comment</p>
-                        <textarea name="" id="" cols="30" rows="5"  onChange={handleText}></textarea><br />
+                        <textarea name="" id="" cols="30" rows="5" value={comment} onChange={handleText}></textarea><br />
                         <button className='bg-cyan-500 font-bold w-full rounded-md active:bg-cyan-600' onClick={handleComment}>Comment</button>
                     </div>
                 </div>

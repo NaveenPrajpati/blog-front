@@ -39,8 +39,6 @@ export const likePost=createAsyncThunk("like",async(id, { rejectWithValue })=>{
 export const editPost=createAsyncThunk("update",async(data, { rejectWithValue })=>{
   
  const res=await updatePost(data)
-
- console.log(res)
   if(res.status!==200)
       return rejectWithValue()
 
@@ -61,7 +59,8 @@ const initialState={
     error:null,
     updateBtn:false,
     updataId:null,
-    enableDetail:false
+    enableDetail:false,
+    status:''
    
     
 }
@@ -148,22 +147,26 @@ export const postSlice=createSlice({
         state.postData.map(find);
       })
       .addCase(likePost.rejected, (state, action) => {
+        
         state.loading = false
         state.error = action.error.message;
       });
       builder
       .addCase(editPost.pending, (state) => {
-        
+        state.status = 'loading'
+        state.loading = true
       })
       .addCase(editPost.fulfilled, (state, action) => {
-        
+        state.status = 'succeeded'
         const find=(it)=>{
           if(it._id==action.payload._id)
-            it=action.payload
+           return it=action.payload
         }
         state.postData.map(find);
+        state.loading = false
       })
       .addCase(editPost.rejected, (state, action) => {
+        state.status = 'failed'
         state.loading = false
         state.error = action.error.message;
       });

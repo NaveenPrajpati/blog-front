@@ -30,7 +30,6 @@ export default function Login() {
 
     loginUser(loginData)
       .then(res => {
-        console.log(res.data)
         localStorage.setItem('userData',JSON.stringify(res.data))
         alert("login success")
         // dispatch(setUser(JSON.parse(localStorage.getItem('userData')).user))
