@@ -12,7 +12,7 @@ import { Await, useNavigate } from 'react-router-dom'
 import { setShowDetail } from '../redux/slices/postDetailSlice'
 
 function Posts({currentItems}) {
-    const[showDetail,setShowDetail]=useState({})
+    
     const { postData, loading,isLiked,enableDetail,status} = useSelector(state => state.postState)
     const {userData} = useSelector(state => state.navbarState)
     const dispatch = useDispatch()
@@ -71,7 +71,7 @@ const handleLike=(id)=>{
     }
 
    const handleDetail=(item)=>{
-        setShowDetail(item)
+        dispatch(setShowDetail(item))
         dispatch(setEnableDetail(true))
     }
 
@@ -79,7 +79,7 @@ const handleLike=(id)=>{
         <div className=''>
            {loading && <MoonLoader color="#36d7b7"  />}
             <ToastContainer />
-            {enableDetail &&  <div className=''><PostDetail showDetail={showDetail}/></div>}
+            
            {!enableDetail &&
             <ul className='flex flex-wrap  gap-5'>
                 {currentItems.map((item,index) =>{ return(
@@ -87,9 +87,9 @@ const handleLike=(id)=>{
         
 
                     <li className='' key={index}>
-                        <div className={`w-[300px] h-80 bg-white border border-gray-200 rounded-lg shadow-2xl cursor-pointer hover:bg-gray-100`} >
+                        <div className={`w-[300px] h-80 bg-white border border-gray-200 rounded-lg shadow-2xl hover:bg-gray-100`} >
                             <div className='w-full  h-[160px] relative '>
-                                <img src={item.imageFile} alt="image" className='object-fill rounded-t-lg h-full  w-full absolute hover:scale-105' onClick={()=>handleDetail(item)}/>
+                                <img src={item.imageFile} alt="image" className='object-fill rounded-t-lg h-full cursor-pointer  w-full absolute hover:scale-105' onClick={()=>handleDetail(item)}/>
                                 <div className='flex absolute items-center w-full justify-between px-1'>
                                 <div>
                                     <p className='text-slate-500 font-bold'>{item.creator}</p>
@@ -112,7 +112,7 @@ const handleLike=(id)=>{
 
                                 <div className=''>
                                 <h5 className="mb-1 text-lg font-bold ">{item.title}</h5>
-                                <p className="mb-1 text-slate-700 font-medium leading-3">{item.message}</p>
+                                <p className="mb-1 text-slate-700 font-medium">{item.message}</p>
                                 </div>
 
                                 <div className="flex justify-between">

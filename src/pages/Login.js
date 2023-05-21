@@ -4,7 +4,7 @@ import { loginUser } from '../service/UserService';
 import Navbar from '../components/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth0 } from '@auth0/auth0-react';
-import { loginstate, setUser } from '../redux/slices/navbarSlice';
+
 
 
 export default function Login() {
@@ -12,6 +12,7 @@ export default function Login() {
   const dispatch = useDispatch();
   
   const { loginWithRedirect } = useAuth0();
+  const { logout } = useAuth0();
 
   const [loginData, setloginData] = useState({
     email: "",

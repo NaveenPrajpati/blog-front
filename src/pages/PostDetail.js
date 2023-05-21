@@ -22,6 +22,7 @@ const { postData, loading,isLiked,enableDetail} = useSelector(state => state.pos
 
     const {commentData} = useSelector(state => state.postDetailState)
     const {userData} = useSelector(state => state.navbarState)
+    const[com,setCom]=useState(showDetail.comments)
 
 const navigate=useNavigate()
 const dispatch=useDispatch()
@@ -35,7 +36,8 @@ const dispatch=useDispatch()
             comment:comment,
             id:showDetail._id
         }
-       dispatch(createComment(detail))
+     const dat=  dispatch(createComment(detail))
+     
        dispatch(postDetailArray(showDetail.comments))
        setComment('')
        
@@ -47,9 +49,8 @@ const dispatch=useDispatch()
     
 
     return (
-        <div>
-         
-            <div className=' bg-slate-200 relative p-2 rounded-3xl shadow-2xl shadow-black drop-shadow-2xl font-semibold'>
+    
+            <div className=' bg-slate-200 mx-auto relative p-2 rounded-3xl shadow-2xl shadow-black drop-shadow-2xl font-semibold sm:w-[80%] '>
 
             <FaWindowClose className='text-red-400 absolute left-5 text-2xl' onClick={handleClose}/>
                 <div className='flex flex-col-reverse sm:flex-row sm:justify-center gap-5 mt-6'>
@@ -61,28 +62,27 @@ const dispatch=useDispatch()
                 <p className='text-slate-600'> <span className='text-black font-bold' >Description:</span> {showDetail.message}</p>
                 <h2 className='text-slate-600'><span className='text-black font-bold' >Created By: </span>{showDetail.creator}</h2>
                 <p className='text-slate-600 leading-3'><Moment fromNow>{showDetail.createdAt}</Moment></p>
-                <hr />
-                <div className='flex flex-col sm:flex-row gap-5 mt-5'>
-                    <div className='sm:w-[50%]'>
+               <br /> <hr className=' h-[4px] bg-slate-400 mt-5' />
+                <div className='flex flex-col sm:flex-row gap-5 '>
+                    <div className='sm:w-[40%]'>
                         <h2 className='text-black font-bold'>Comments</h2>
-                      <CommentList comments={showDetail.comments}/>
+                    <CommentList id={showDetail._id}/>
                     </div>
-                    <div>
+                    {userData.name &&   <div>
                         <p>Write Comment</p>
-                        <textarea name="" id="" cols="30" rows="5" value={comment} onChange={handleText}></textarea><br />
+                        <textarea name="" id="" cols="30" rows="5" placeholder='comments' value={comment} onChange={handleText} className='p-1 rounded-md'></textarea><br />
                         <button className='bg-cyan-500 font-bold w-full rounded-md active:bg-cyan-600' onClick={handleComment}>Comment</button>
-                    </div>
+                    </div>}
                 </div>
 
 
                 </div>
 
-                <div className='min-w-[300px] sm:block  sm:w-[35%]'>
-                    <img src={showDetail.imageFile} alt="" className='object-fill mx-auto'/>
+                <div className='min-w-[300px] sm:block  sm:w-[35%] '>
+                    <img src={showDetail.imageFile} alt="image" className='object-fill mx-auto'/>
                 </div>
                 
                 </div>
             </div>
-        </div>
     )
 }

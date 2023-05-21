@@ -48,7 +48,7 @@ export const createComment=createAsyncThunk("createComment",async(data, { reject
   const res=await saveComment(data) 
    if(res.status!==200)
        return rejectWithValue()
- 
+
     return res.data;
    })
 
@@ -136,15 +136,17 @@ export const postSlice=createSlice({
         
       })
       .addCase(likePost.fulfilled, (state, action) => {
-        
-
-        const find=(it)=>{
-          if(it._id==action.payload._id){
-            it.likes=action.payload.likes
-        }
+        const { _id, likes } = action.payload;
+      //   const find=(it)=>{
+      //     if(it._id==action.payload._id){
+      //       it.likes=action.payload.likes
+      //   }
+      // }
+      const postToUpdate = state.postData.find((post) => post._id === _id);
+      if (postToUpdate) {
+        postToUpdate.likes = likes;
       }
-
-        state.postData.map(find);
+        // state.postData.map(find);
       })
       .addCase(likePost.rejected, (state, action) => {
         
@@ -158,11 +160,17 @@ export const postSlice=createSlice({
       })
       .addCase(editPost.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        const find=(it)=>{
-          if(it._id==action.payload._id)
-           return it=action.payload
-        }
-        state.postData.map(find);
+        // const find=(it)=>{
+        //   if(it._id==action.payload._id)
+        //    return it=action.payload
+        // }
+        // state.postData.map(find);
+
+        const updatedPost = action.payload;
+        state.postData = state.postData.map((post) =>
+          post._id === updatedPost._id ? updatedPost : post
+        );
+
         state.loading = false
       })
       .addCase(editPost.rejected, (state, action) => {
@@ -176,14 +184,28 @@ export const postSlice=createSlice({
       })
       .addCase(createComment.fulfilled, (state, action) => {
         state.loading = false
-        console.log(action.payload)
-        const find=(it)=>{
-          if(it._id==action.payload._id){
-            it.comments=action.payload.comments
-        }
+      //   console.log(action.payload)
+      //   const find=(it)=>{
+      //     if(it._id==action.payload._id){
+      //       it.comments=action.payload.comments
+      //   }
+      // }
+      //   state.postData.map(find);
+
+      // const updatedComment = action.payload;
+      // state.postData = state.postData.map((post) =>
+      //   post._id === updatedComment._id
+      //     ? { ...post, comments: updatedComment.comments }
+      //     : post
+      // );
+  
+      const { _id, comments } = action.payload;
+
+      const postToUpdate = state.postData.find((post) => post._id === _id);
+      if (postToUpdate) {
+        postToUpdate.comments = comments;
       }
 
-        state.postData.map(find);
       })
       .addCase(createComment.rejected, (state, action) => {
         state.loading = false

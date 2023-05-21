@@ -15,6 +15,8 @@ function Homapage() {
  const navigate=useNavigate()
   const {showDetail} = useSelector(state => state.postDetailState)
   const {logedIn,userData,searchOpt}=useSelector((state)=>state.navbarState)
+  const { postData, loading,isLiked,enableDetail,status} = useSelector(state => state.postState)
+
 
   useEffect(() => {
     if(localStorage.getItem('userData')){
@@ -27,6 +29,7 @@ function Homapage() {
     dispatch(loginstate(true))
     }
   }else{
+    dispatch(setUser({}))
       localStorage.clear();
       alert('session expired login again')
       navigate('/')
@@ -37,13 +40,13 @@ function Homapage() {
   return (
     <div className='w-full p-10 flex flex-col items-center sm:block'>
       <Navbar />
-      {/* {(Object.keys(showDetail).length!==0)?<div className='mx-auto sm:w-[80%] '><PostDetail /></div>: */}
+      {enableDetail &&  <div className=''><PostDetail showDetail={showDetail}/></div>}
         <div className='flex flex-col-reverse sm:flex-row sm:justify-between  mx-10'>
         <div className='sm:w-[80%]'>
           <Pagination itemsPerPage={6} />
         </div>
         <div className=''>
-        {logedIn?<PostForm />: 
+        {logedIn?(!enableDetail && <PostForm />): 
         <div>
           <p>login to create stories</p>
         </div>

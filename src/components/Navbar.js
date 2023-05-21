@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom'
-import { loginstate, setSearch, setusername } from '../redux/slices/navbarSlice';
+import { loginstate, setSearch, setUser, setusername } from '../redux/slices/navbarSlice';
 import { useAuth0 } from '@auth0/auth0-react';
 import image1 from '../images/create.png'
 import image2 from '../images/instagram-stories.png'
@@ -12,6 +12,8 @@ export default function Navbar() {
   const { logout } = useAuth0();
   const { user, isAuthenticated, isLoading } = useAuth0();
   
+  console.log(user)
+
   const {logedIn,userData,searchOpt}=useSelector((state)=>state.navbarState)
   if(isAuthenticated)
   dispatch(loginstate(isAuthenticated))
@@ -20,6 +22,7 @@ export default function Navbar() {
     event.preventDefault();
     navigate('/login')
     localStorage.clear();
+    dispatch(setUser({}))
       dispatch(loginstate(false));
 
   }
@@ -51,7 +54,7 @@ export default function Navbar() {
     <h2 onClick={()=>navigate("/signup")} className='text-2xl text-white font-bold bg-slate-700 p-1 rounded-lg cursor-pointer'>SignUp</h2>
       }
      {isAuthenticated && 
-    <h2 onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} className='text-2xl font-bold bg-slate-800 p-1 rounded-lg cursor-pointer'>Logout</h2>
+    <h2 onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} className='text-2xl font-bold bg-slate-800 p-1 rounded-lg cursor-pointer'>Logout google</h2>
       }
      {logedIn && 
     <h2 onClick={handleLogin} className='text-xl text-white font-bold bg-slate-700 p-1 rounded-lg cursor-pointer'>Logout</h2>
