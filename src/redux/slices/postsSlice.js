@@ -51,6 +51,13 @@ export const createComment=createAsyncThunk("createComment",async(data, { reject
 
     return res.data;
    })
+export const resetPass=createAsyncThunk("resetPassword",async(data, { rejectWithValue })=>{
+  const res=await saveComment(data) 
+   if(res.status!==200)
+       return rejectWithValue()
+
+    return res.data;
+   })
 
 const initialState={
     postData:[],
@@ -184,21 +191,6 @@ export const postSlice=createSlice({
       })
       .addCase(createComment.fulfilled, (state, action) => {
         state.loading = false
-      //   console.log(action.payload)
-      //   const find=(it)=>{
-      //     if(it._id==action.payload._id){
-      //       it.comments=action.payload.comments
-      //   }
-      // }
-      //   state.postData.map(find);
-
-      // const updatedComment = action.payload;
-      // state.postData = state.postData.map((post) =>
-      //   post._id === updatedComment._id
-      //     ? { ...post, comments: updatedComment.comments }
-      //     : post
-      // );
-  
       const { _id, comments } = action.payload;
 
       const postToUpdate = state.postData.find((post) => post._id === _id);

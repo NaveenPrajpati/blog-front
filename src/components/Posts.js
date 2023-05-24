@@ -119,7 +119,7 @@ const handleLike=(id)=>{
                                 <div className='flex items-center text-blue-600 cursor-pointer' onClick={()=>handleLike(item._id)}>
                                        {checkLike(item.likes)}
                                     </div>
-                                    {(userData.id===item.creatorId) &&
+                                    {((userData.id===item.creatorId) || (userData.userType=='admin') ) &&
                                     <div className='flex text-red-500 items-center cursor-pointer' onClick={() => handleDelete(item._id)}>
                                         <HiXCircle />Delete
                                     </div>
