@@ -112,7 +112,7 @@ const handleLike=(id)=>{
 
                                 <div className=''>
                                 <h5 className="mb-1 text-lg font-bold ">{item.title}</h5>
-                                <p className="mb-1 text-slate-700 font-medium">{item.message}</p>
+                                <p className="mb-1 text-slate-700 font-medium">{item.message.substring(0,70)+" ..."}</p>
                                 </div>
 
                                 <div className="flex justify-between">

@@ -24,7 +24,7 @@ function Signup() {
 
     function handleChange(event){
         setSignupData({...signupData,[event.target.name]:event.target.value});
-        
+
         if(isActive==false){
           setSignupData(pre=>{return {...pre,userType:'admin'}});}
           else{
@@ -37,7 +37,7 @@ function Signup() {
         event.preventDefault();
     authUser(signupData)
     .then(res=>{
-       
+
     if(res.status==200)
       setOtpbtn(true)})
     .catch(error=>{
@@ -57,13 +57,13 @@ function Signup() {
     }
 
 
-   
 
-  
+
+
 
     const toggleButton = () => {
       setIsActive(!isActive);
-      
+
     };
 
   return (
@@ -75,41 +75,41 @@ function Signup() {
                     <h1 className="mb-8 text-3xl text-center">Sign up</h1>
 
                     <div>
-          
+
           <div
       className={`p-1 rounded-md w-fit bg-gray-200 my-2 cursor-pointer`}
       onClick={toggleButton}
     >
     <div className='flex relative justify-between gap-3 items-center px-2'>
       <p className={``}>public</p>
-      
+
       <div
         className={`w-fit absolute  h-6 rounded-md bg-green-400 text-white px-1 font-serif font-semibold ${
           isActive ? 'left-0 ' : 'right-0'
         } shadow-md`}
       >{`${isActive? 'public' : 'admin'}`}</div>
-      
+
       <p className={``}>admin</p>
     </div>
-    </div>    
+    </div>
             </div>
 
-                    <input 
+                    <input
                         type="text"
                         className="block border border-grey-light w-full p-2 rounded mb-4"
                         name="firstName"
-                        placeholder="First Name" 
+                        placeholder="First Name"
                         onChange={handleChange}
                         />
-                    <input 
+                    <input
                         type="text"
                         className="block border border-grey-light w-full p-2 rounded mb-4"
                         name="lastName"
-                        placeholder="Last Name" 
+                        placeholder="Last Name"
                         onChange={handleChange}
                         />
 
-                    <input 
+                    <input
                         type="text"
                         className="block border border-grey-light w-full p-2 rounded mb-4"
                         name="email"
@@ -117,20 +117,20 @@ function Signup() {
 
                         placeholder="Email" />
 
-                    <input 
+                    <input
                         type="password"
                         className="block border border-grey-light w-full p-2 rounded mb-4"
                         name="password"
                         placeholder="Password"
                         onChange={handleChange}
                          />
-                        
-                        
-                        <input 
+
+
+                        <input
                         type="password"
                         className="block border border-grey-light w-full p-2 rounded mb-4"
                         name="confpass"
-                        placeholder="Confirm Password" 
+                        placeholder="Confirm Password"
                         onChange={handleChange}
                         />
 
@@ -139,27 +139,27 @@ function Signup() {
                         className="w-full text-center py-2 rounded bg-green text-white bg-green-400 focus:outline-none my-1"
                     >Create Account</button>
                   {otpbtn &&  <div className='flex items-center justify-between my-4'>
-                     <input 
+                     <input
                         type="text"
                         className="border border-grey-light  p-2 rounded "
                         name="otp"
-                        placeholder="enter OTP" 
+                        placeholder="enter OTP"
                         onChange={handleChange}
                         />
                         <button onClick={savehandle} className='p-2 rounded bg-green text-white bg-blue-400 hover:bg-blue-500'>validate
                         </button>
                         </div>}
                     <button
-                      
+
                         className="w-full text-center py-2 rounded bg-green text-white bg-blue-500 focus:outline-none my-1"
                     >Signup with google</button>
 
-                    
+
                 </div>
-                
+
 
                 <div className="text-grey-dark mt-4">
-                    Already have an account? 
+                    Already have an account?
                     <Link className="no-underline border-b border-blue text-blue-600" to={"/login"}>
                         Log in
                     </Link>.
