@@ -47,9 +47,9 @@ function Homapage() {
         </div>
         <div className=''>
         {logedIn?(!enableDetail && <PostForm />): 
-        <div>
-          <p>login to create stories</p>
-        </div>
+     
+          <p className='font-semibold text-xl'>login to create stories</p>
+    
         }
         </div>
 

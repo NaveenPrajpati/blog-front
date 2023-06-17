@@ -92,9 +92,9 @@ const handleLike=(id)=>{
                                 <img src={item.imageFile} alt="image" className='object-fill rounded-t-lg h-full cursor-pointer  w-full absolute hover:scale-105' onClick={()=>handleDetail(item)}/>
                                 <div className='flex absolute items-center w-full justify-between px-1'>
                                 <div>
-                                    <p className='text-slate-500 font-bold'>{item.creator}</p>
+                                    <p className='text-white font-bold'>{item.creator}</p>
                                     
-                                    <p className=' text-xs text-slate-400 font-semibold leading-3'><Moment fromNow>{item.createdAt}</Moment></p>
+                                    <p className=' text-xs text-white font-semibold leading-3'><Moment fromNow>{item.createdAt}</Moment></p>
                                 </div>
 
                                 {(userData.id===item.creatorId) &&
@@ -111,8 +111,8 @@ const handleLike=(id)=>{
                                 <div className='flex flex-col mt-3 justify-between h-28'>
 
                                 <div className=''>
-                                <h5 className="mb-1 text-lg font-bold ">{item.title}</h5>
-                                <p className="mb-1 text-slate-700 font-medium">{item.message.substring(0,70)+" ..."}</p>
+                                <h5 className="mb-1 text-lg font-bold ">{item.title.substring(0,25)}</h5>
+                                <p className="mb-1 text-slate-700 font-medium">{item.message.substring(0,65)+" ..."}</p>
                                 </div>
 
                                 <div className="flex justify-between">
