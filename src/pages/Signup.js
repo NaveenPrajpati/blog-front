@@ -9,7 +9,6 @@ import { loginstate } from '../redux/slices/navbarSlice';
 
 function Signup() {
     const [isActive, setIsActive] = useState(true);
-    const dispatch=useDispatch()
     const navigate=useNavigate()
     const[otpbtn,setOtpbtn]=useState(false)
     const [signupData,setSignupData]=useState({

@@ -7,7 +7,7 @@ import Posts from './Posts';
 
 export default function Pagination({ itemsPerPage }){
 
-  const { postData, loading,isLiked} = useSelector(state => state.postState)
+  const { postData} = useSelector(state => state.postState)
   const { searchOpt} = useSelector(state => state.navbarState)
   const [startIndex, setStartIndex] = useState(0);
 

@@ -15,16 +15,11 @@ import CommentList from '../components/CommentList'
 
 export default function PostDetail({showDetail}) {
     const [comment, setComment] = useState('')
-    const commentRef=useRef();
 
 
-const { postData, loading,isLiked,enableDetail} = useSelector(state => state.postState)
 
-    const {commentData} = useSelector(state => state.postDetailState)
     const {userData} = useSelector(state => state.navbarState)
-    const[com,setCom]=useState(showDetail.comments)
 
-const navigate=useNavigate()
 const dispatch=useDispatch()
     function handleClose(){
         
@@ -36,7 +31,6 @@ const dispatch=useDispatch()
             comment:comment,
             id:showDetail._id
         }
-     const dat=  dispatch(createComment(detail))
      
        dispatch(postDetailArray(showDetail.comments))
        setComment('')

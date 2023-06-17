@@ -14,8 +14,8 @@ function Homapage() {
   const dispatch = useDispatch();
  const navigate=useNavigate()
   const {showDetail} = useSelector(state => state.postDetailState)
-  const {logedIn,userData,searchOpt}=useSelector((state)=>state.navbarState)
-  const { postData, loading,isLiked,enableDetail,status} = useSelector(state => state.postState)
+  const {logedIn}=useSelector((state)=>state.navbarState)
+  const { enableDetail} = useSelector(state => state.postState)
 
 
   useEffect(() => {

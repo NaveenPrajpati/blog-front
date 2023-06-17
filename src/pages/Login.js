@@ -13,7 +13,6 @@ export default function Login() {
   const [resetOpt, setResetOpt] = useState(false)
 
 
-  const dispatch = useDispatch();
 
 
   const [loginData, setloginData] = useState({

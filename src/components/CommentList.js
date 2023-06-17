@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 function CommentList({id}) {
-    const { postData, loading,isLiked,enableDetail} = useSelector(state => state.postState)
+    const { postData} = useSelector(state => state.postState)
     const [com,setCom]=useState([])
 const commentRef=useRef(null)
 

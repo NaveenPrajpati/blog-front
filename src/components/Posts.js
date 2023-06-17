@@ -13,7 +13,7 @@ import { setShowDetail } from '../redux/slices/postDetailSlice'
 
 function Posts({currentItems}) {
     
-    const { postData, loading,isLiked,enableDetail,status} = useSelector(state => state.postState)
+    const { loading,enableDetail} = useSelector(state => state.postState)
     const {userData} = useSelector(state => state.navbarState)
     const dispatch = useDispatch()
 
