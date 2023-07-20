@@ -31,7 +31,7 @@ function Homapage() {
   }else{
     dispatch(setUser({}))
       localStorage.clear();
-      alert('session expired login again')
+      
       navigate('/')
   }
 
@@ -40,10 +40,13 @@ function Homapage() {
   return (
     <div className='w-full p-10 flex flex-col items-center sm:block'>
       <Navbar />
+      <div className='border-2 my-5 '>
+        <p className='text-red-400 text-center font-bold'>Demo id demoaccount@gmail.com and password 123</p>
+      </div>
       {enableDetail &&  <div className=''><PostDetail showDetail={showDetail}/></div>}
         <div className='flex flex-col-reverse sm:flex-row sm:justify-between  mx-10'>
         <div className='sm:w-[80%]'>
-          <Pagination itemsPerPage={6} />
+          <Pagination itemsPerPage={8} />
         </div>
         <div className=''>
         {logedIn?(!enableDetail && <PostForm />): 
