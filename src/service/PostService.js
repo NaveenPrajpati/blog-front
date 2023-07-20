@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const BaseUrl=`http://localhost:4000/post`;
+// const BaseUrl=`http://localhost:4000/post`;
 
-// const BaseUrl=`https://blog-backend-c06h.onrender.com/post`;
+const BaseUrl=`https://blog-backend-c06h.onrender.com/post`;
 //Request interceptors for API calls
 axios.interceptors.request.use(
   config => {

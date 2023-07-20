@@ -1,7 +1,7 @@
 import axios from "axios";
-const BaseUrl=`http://localhost:4000/user`;
+// const BaseUrl=`http://localhost:4000/user`;
 
-// const BaseUrl='https://blog-backend-c06h.onrender.com/user';
+const BaseUrl='https://blog-backend-c06h.onrender.com/user';
 
 
  export const authUser=(user)=>{
