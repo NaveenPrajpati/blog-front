@@ -33,7 +33,7 @@ export default function Pagination({ itemsPerPage }){
   };
 
   return (
-    <div className='flex flex-col gap-11 items-center'>
+    <div className='flex flex-col gap-11   items-center'>
       <Posts currentItems={currentItems} />
       <ReactPaginate
       className='flex justify-center font-semibold text-slate-600  gap-4  bottom-5 '

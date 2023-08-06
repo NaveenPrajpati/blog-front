@@ -44,16 +44,19 @@ function Homapage() {
         <p className='text-red-400 text-center font-bold'>Demo id demoaccount@gmail.com and password 123</p>
       </div>
       {enableDetail &&  <div className=''><PostDetail showDetail={showDetail}/></div>}
-        <div className='flex flex-col-reverse sm:flex-row sm:justify-between  mx-10'>
-        <div className='sm:w-[80%]'>
+        <div className='flex flex-col-reverse md:flex-row md:justify-between  mx-10'>
+        {!enableDetail &&   <div className={`  ${logedIn?'sm:w-[80%]':'w-full'}`}>
+        <p className='font-semibold text-xl text-center'>login to create stories</p>
           <Pagination itemsPerPage={8} />
-        </div>
-        <div className=''>
+        </div>}
+        <div className=' mx-auto'>
         {logedIn?(!enableDetail && <PostForm />): 
      
-          <p className='font-semibold text-xl'>login to create stories</p>
+         ''
     
         }
+       
+
         </div>
 
       </div>

@@ -59,7 +59,7 @@ const dispatch=useDispatch()
                <br /> <hr className=' h-[4px] bg-slate-400 mt-5' />
                 <div className='flex flex-col sm:flex-row gap-5 '>
                     <div className='sm:w-[40%]'>
-                        <h2 className='text-black font-bold'>Comments</h2>
+                        <h2 className='text-black text-xl font-bold'>Comments</h2>
                     <CommentList id={showDetail._id}/>
                     </div>
                     {userData.name &&   <div>

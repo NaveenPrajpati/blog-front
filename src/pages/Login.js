@@ -92,6 +92,9 @@ export default function Login() {
   return (
     <div className='p-5'>
       <Navbar />
+      <div className='border-2 my-5 '>
+        <p className='text-red-400 text-center font-bold'>Demo id demoaccount@gmail.com and password 123</p>
+      </div>
       {!resetOpt && <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
 

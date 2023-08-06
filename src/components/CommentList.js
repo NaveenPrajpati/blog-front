@@ -31,7 +31,7 @@ const commentRef=useRef(null)
         <ul ref={commentRef} className='h-[150px] overflow-auto'>
        {com?.map((itm,ind)=>{return (
         <>
-     <li key={ind}><strong className=''>{itm.split(':-')[0]} </strong> {itm.split(':-')[1]}</li>
+     <li key={ind} className='text-blue-800'><strong className='text-black capitalize '>{itm.split(':-')[0]} </strong> {itm.split(':-')[1]}</li>
         </>
     )})}
      

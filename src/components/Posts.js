@@ -81,7 +81,7 @@ const handleLike=(id)=>{
             <ToastContainer />
             
            {!enableDetail &&
-            <ul className='flex flex-wrap  gap-5'>
+            <ul className='flex flex-wrap  justify-center  gap-5'>
                 {currentItems.map((item,index) =>{ return(
 
         
